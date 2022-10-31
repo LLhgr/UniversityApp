@@ -77,7 +77,7 @@ export default function ListaDisciplinas({ navigation }) {
                 />
                 <TouchableOpacity
                     style={styles.buttonNew}
-                    onPress={() => navigation.navigate("Menu")}
+                    onPress={() => navigation.navigate("Cadastro Disciplina")}
                 >
                     <Text style={styles.iconButton}>+</Text>
                 </TouchableOpacity>

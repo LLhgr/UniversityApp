@@ -80,7 +80,7 @@ export default function ListaTurmas({ navigation }) {
                 />
                 <TouchableOpacity
                     style={styles.buttonNew}
-                    onPress={() => navigation.navigate("Menu")}
+                    onPress={() => navigation.navigate("Cadastro Turma")}
                 >
                     <Text style={styles.iconButton}>+</Text>
                 </TouchableOpacity>

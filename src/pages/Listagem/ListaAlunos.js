@@ -84,7 +84,7 @@ export default function ListaAlunos({ navigation }) {
                 />
                 <TouchableOpacity
                     style={styles.buttonNew}
-                    onPress={() => navigation.navigate("Menu")}
+                    onPress={() => navigation.navigate("Cadastro Aluno")}
                 >
                     <Text style={styles.iconButton}>+</Text>
                 </TouchableOpacity>

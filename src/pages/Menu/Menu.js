@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Menu({ navigation }) {
 
-
     return (
         <View style={styles.container}>
             <TouchableOpacity

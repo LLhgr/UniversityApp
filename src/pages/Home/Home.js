@@ -5,21 +5,8 @@ import styles from "./style";
 
 export default function Home({ navigation }) {
 
-    const [imagem, setImagem] = useState("")
+    const imagem = `https://c4.wallpaperflare.com/wallpaper/500/442/354/outrun-vaporwave-hd-wallpaper-thumb.jpg`
 
-    function findImage() {
-        let url = `https://avatars.dicebear.com/api/male/john.svg?background=%230000ff`
-
-        fetch(url).then((res) => {
-            console.log(res)
-            setImagem(res.url)
-        })
-
-    }
-
-    useEffect(() => {
-        findImage()
-    }, [])
 
     return (
         <View style={styles.container}>

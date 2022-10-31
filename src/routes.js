@@ -10,13 +10,19 @@ import Config from "./pages/Config/Config";
 import Home from "./pages/Home/Home";
 import Menu from "./pages/Menu/Menu";
 
-// LISTAGENS E CADASTROS
+// LISTAGENS
 import ListaAlunos from "./pages/Listagem/ListaAlunos";
 import ListaDisciplinas from "./pages/Listagem/ListaDisciplinas";
 import ListaProfessores from "./pages/Listagem/ListaProfessores";
 import ListaTurmas from "./pages/Listagem/ListaTurmas";
 import ListaHistorico from "./pages/Listagem/ListaHistorico";
 
+// CADASTROS
+import CadastroAluno from "./pages/Cadastro/CadastroAlunos";
+import CadastroProfessor from "./pages/Cadastro/CadastroProfessores";
+import CadastroDisciplina from "./pages/Cadastro/CadastroDisciplinas";
+import CadastroTurma from "./pages/Cadastro/CadastroTurmas";
+import CadastroHistorico from "./pages/Cadastro/CadastroHistorico";
 
 const Stack = createStackNavigator();
 
@@ -87,6 +93,67 @@ function RootNavigator() {
             <Stack.Screen
                 name="Lista Historico"
                 component={ListaHistorico}
+                options={{
+                    headerShown: true,
+                    headerTintColor: "orange",
+                    headerStyle: {
+                        backgroundColor: '#171717',
+                    },
+
+                }}
+            />
+            {/* CADASTROS */}
+            <Stack.Screen
+                name="Cadastro Aluno"
+                component={CadastroAluno}
+                options={{
+                    headerShown: true,
+                    headerTintColor: "orange",
+                    headerStyle: {
+                        backgroundColor: '#171717',
+                    },
+
+                }}
+            />
+            <Stack.Screen
+                name="Cadastro Professor"
+                component={CadastroProfessor}
+                options={{
+                    headerShown: true,
+                    headerTintColor: "orange",
+                    headerStyle: {
+                        backgroundColor: '#171717',
+                    },
+
+                }}
+            />
+            <Stack.Screen
+                name="Cadastro Disciplina"
+                component={CadastroDisciplina}
+                options={{
+                    headerShown: true,
+                    headerTintColor: "orange",
+                    headerStyle: {
+                        backgroundColor: '#171717',
+                    },
+
+                }}
+            />
+            <Stack.Screen
+                name="Cadastro Turma"
+                component={CadastroTurma}
+                options={{
+                    headerShown: true,
+                    headerTintColor: "orange",
+                    headerStyle: {
+                        backgroundColor: '#171717',
+                    },
+
+                }}
+            />
+            <Stack.Screen
+                name="Cadastro Histórico"
+                component={CadastroHistorico}
                 options={{
                     headerShown: true,
                     headerTintColor: "orange",

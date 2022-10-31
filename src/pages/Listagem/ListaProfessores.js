@@ -62,7 +62,7 @@ export default function ListaProfessores({ navigation }) {
             />
             <TouchableOpacity
                 style={styles.buttonNew}
-                onPress={() => navigation.navigate("Menu")}
+                onPress={() => navigation.navigate("Cadastro Professor")}
             >
                 <Text style={styles.iconButton}>+</Text>
             </TouchableOpacity>
