@@ -11,7 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 
 export default function ListaAlunos({ navigation }) {
-    const [alunos, setAlunos] = useState([])
+    const [alunos, setAlunos] = useState([]);
     const [loading, setLoading] = useState(false);
 
     async function getDados() {
@@ -39,7 +39,6 @@ export default function ListaAlunos({ navigation }) {
 
     useEffect(() => {
         getDados()
-        console.log("chamado")
     }, [])
 
     if (loading) {

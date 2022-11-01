@@ -14,8 +14,36 @@ export default function ListaHistorico({ navigation }) {
     const [historico, setHistorico] = useState([])
     const [loading, setLoading] = useState(false);
 
+    //Alunos
+    const [alunos, setAlunos] = useState([]);
+
+    async function getDadosAlunos() {
+        const collecRef = collection(database, 'alunos');
+        let lista = [];
+        await getDocs(collecRef).then((snapshot) => {
+            for (let i = 0; i < snapshot.docs.length; i++) {
+                let obj = {
+                    id: snapshot.docs[i].id,
+                    nome: snapshot.docs[i].data().nome,
+                }
+                lista.push(obj)
+            }
+            setAlunos(lista)
+        })
+    }
+
+    function interateHistoricoWithName() {
+        historico.forEach(item => {
+            console.log(item)
+        })
+    }
+
+    function findNameByID() {
+
+    }
+
     async function getDados() {
-        setLoading(true)
+        
         const collecRef = collection(database, 'historico');
         let lista = [];
         await getDocs(collecRef).then((snapshot) => {
@@ -32,14 +60,19 @@ export default function ListaHistorico({ navigation }) {
             }
             setHistorico(lista)
         })
+    }
+
+    async function main() {
+        setLoading(true)
+        await getDados()
+        await getDadosAlunos()
+        interateHistoricoWithName()
         setLoading(false)
     }
 
 
-
     useEffect(() => {
-        getDados()
-        console.log("chamado")
+        main()
     }, [])
 
     if (loading) {

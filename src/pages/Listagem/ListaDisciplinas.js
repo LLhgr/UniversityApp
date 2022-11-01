@@ -35,7 +35,6 @@ export default function ListaDisciplinas({ navigation }) {
 
     useEffect(() => {
         getDados()
-        console.log("chamado")
     }, [])
 
     if (loading) {

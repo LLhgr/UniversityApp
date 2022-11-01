@@ -29,7 +29,7 @@ export default function Home({ navigation }) {
                     }}
                 />
                 <Text style={styles.name}>
-                    Gabriel Lucas - 200313
+                    Gabriel Lucas - 200840
                 </Text>
             </View>
             <View style={styles.content}>
@@ -40,7 +40,7 @@ export default function Home({ navigation }) {
                     }}
                 />
                 <Text style={styles.name}>
-                    Davi Oliveira - 200313
+                    Davi Oliveira - 200913
                 </Text>
             </View>
         </View>

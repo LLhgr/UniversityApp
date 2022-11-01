@@ -28,10 +28,10 @@ export default function CadastroHistorico({ navigation }) {
 
 
 
-    function AllFieldsAreFilled() {
+    function AllFieldsAreFilled(idTurma, idMatricula) {
         let obj = {
-            cod_turma: cod_turma,
-            matricula: matricula,
+            cod_turma: idTurma,
+            matricula: idMatricula,
             frequencia: frequencia,
             nota: nota,
         }
@@ -52,20 +52,20 @@ export default function CadastroHistorico({ navigation }) {
         console.log(idMatricula)
         console.log(idTurma)
 
-        // if (!AllFieldsAreFilled()) {
-        //     window.alert("Preencha todos os campos")
-        //     return
-        // }
-        // else {
-        //     addDoc(collection(database, "turmas"), {
-        //         cod_turma: cod_turma,
-        //         cod_disc: cod_disc,
-        //         cod_prof: cod_prof,
-        //         ano: ano,
-        //         horario: horario,
-        //     })
-        //     navigation.navigate("Lista Turmas")
-        // }
+        if (!AllFieldsAreFilled(idTurma, idMatricula)) {
+            window.alert("Preencha todos os campos")
+            return
+        }
+        else {
+            addDoc(collection(database, "historico"), {
+                cod_historico: cod_historico,
+                cod_turma: idTurma,
+                matricula: idMatricula,
+                frequencia: frequencia,
+                nota: nota,
+            })
+            navigation.navigate("Lista Historico")
+        }
     }
 
     //Matricula
@@ -124,7 +124,7 @@ export default function CadastroHistorico({ navigation }) {
 
 
     useEffect(() => {
-        setCodTurma(uuid.v4())
+        setCodHistorico(uuid.v4())
         getMatriculaData()
         getTurmaData()
     }, [])

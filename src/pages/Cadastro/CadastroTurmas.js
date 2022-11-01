@@ -28,10 +28,10 @@ export default function CadastroTurma({ navigation }) {
 
 
 
-    function AllFieldsAreFilled() {
+    function AllFieldsAreFilled(idProf, idDisc) {
         let obj = {
-            cod_disc: cod_disc,
-            cod_prof: cod_prof,
+            cod_disc: idDisc,
+            cod_prof: idProf,
             ano: ano,
             horario: horario,
         }
@@ -52,20 +52,20 @@ export default function CadastroTurma({ navigation }) {
         console.log(idProf)
         console.log(idDisc)
 
-        // if (!AllFieldsAreFilled()) {
-        //     window.alert("Preencha todos os campos")
-        //     return
-        // }
-        // else {
-        //     addDoc(collection(database, "turmas"), {
-        //         cod_turma: cod_turma,
-        //         cod_disc: cod_disc,
-        //         cod_prof: cod_prof,
-        //         ano: ano,
-        //         horario: horario,
-        //     })
-        //     navigation.navigate("Lista Turmas")
-        // }
+        if (!AllFieldsAreFilled(idProf, idDisc)) {
+            window.alert("Preencha todos os campos")
+            return
+        }
+        else {
+            addDoc(collection(database, "turmas"), {
+                cod_turma: cod_turma,
+                cod_disc: idDisc,
+                cod_prof: idProf,
+                ano: ano,
+                horario: horario,
+            })
+            navigation.navigate("Lista Turmas")
+        }
     }
 
     //Professor

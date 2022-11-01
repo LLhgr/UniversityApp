@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Button, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Button, Image, ActivityIndicator } from "react-native";
 
 //FIREBASE
 import { getFirestore, collection, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore'
@@ -12,8 +12,10 @@ import { FontAwesome } from "@expo/vector-icons";
 
 export default function ListaProfessores({ navigation }) {
     const [professor, setProfessor] = useState([])
+    const [loading, setLoading] = useState(false);
 
     async function getDados() {
+        setLoading(true)
         const collecRef = collection(database, 'professores');
         let lista = [];
         await getDocs(collecRef).then((snapshot) => {
@@ -29,45 +31,54 @@ export default function ListaProfessores({ navigation }) {
             }
             setProfessor(lista)
         })
+        setLoading(false)
     }
 
     useEffect(() => {
         getDados()
-        console.log("chamado")
     }, [])
 
-    return (
-        <View style={styles.container}>
-            <FlatList
-                showsVerticalScrollIndicator={true}
-                data={professor}
-                renderItem={(item) => {
-                    return (
-                        <View style={styles.containerFlatlist}>
-                            <TouchableOpacity style={styles.content} onPress={() => navigation.navigate("Menu", {
-                                id: item.item.id,
-                                nome_disc: item.item.nome_disc,
-                                cod_disc: item.item.cod_disc,
-                                carga_hor: item.item.carga_hor,
-                            })}>
-                                <Text
-                                    style={styles.description}
-                                >
-                                    {item.item.nome}
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    )
-                }}
-            />
-            <TouchableOpacity
-                style={styles.buttonNew}
-                onPress={() => navigation.navigate("Cadastro Professor")}
-            >
-                <Text style={styles.iconButton}>+</Text>
-            </TouchableOpacity>
-        </View>
-    )
+    if (loading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color="orange" />
+            </View>
+        );
+    }
+    else {
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    showsVerticalScrollIndicator={true}
+                    data={professor}
+                    renderItem={(item) => {
+                        return (
+                            <View style={styles.containerFlatlist}>
+                                <TouchableOpacity style={styles.content} onPress={() => navigation.navigate("Menu", {
+                                    id: item.item.id,
+                                    nome_disc: item.item.nome_disc,
+                                    cod_disc: item.item.cod_disc,
+                                    carga_hor: item.item.carga_hor,
+                                })}>
+                                    <Text
+                                        style={styles.description}
+                                    >
+                                        {item.item.nome}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }}
+                />
+                <TouchableOpacity
+                    style={styles.buttonNew}
+                    onPress={() => navigation.navigate("Cadastro Professor")}
+                >
+                    <Text style={styles.iconButton}>+</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

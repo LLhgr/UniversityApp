@@ -19,7 +19,6 @@ export default function ListaTurmas({ navigation }) {
         const collecRef = collection(database, 'turmas');
         let lista = [];
         await getDocs(collecRef).then((snapshot) => {
-            console.log("SNAPSHOT:::", snapshot)
             for (let i = 0; i < snapshot.docs.length; i++) {
                 let obj = {
                     id: snapshot.docs[i].id,
@@ -31,7 +30,6 @@ export default function ListaTurmas({ navigation }) {
                 }
                 lista.push(obj)
             }
-            console.log("LISTA:::", lista[0].cod_prof)
             setTurma(lista)
         })
         setLoading(false)
@@ -71,7 +69,7 @@ export default function ListaTurmas({ navigation }) {
                                     <Text
                                         style={styles.description}
                                     >
-                                        {`${item.item.ano} ano`}
+                                        {`${item.item.ano}`}
                                     </Text>
                                 </TouchableOpacity>
                             </View>
