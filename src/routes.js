@@ -24,6 +24,13 @@ import CadastroDisciplina from "./pages/Cadastro/CadastroDisciplinas";
 import CadastroTurma from "./pages/Cadastro/CadastroTurmas";
 import CadastroHistorico from "./pages/Cadastro/CadastroHistorico";
 
+// EDIT
+import EditHistorico from "./pages/Edit/EditHistorico";
+
+//Details
+import DetailsTurmas from "./pages/Details/DetailsTurma";
+
+
 const Stack = createStackNavigator();
 
 export default function Router() {
@@ -154,6 +161,32 @@ function RootNavigator() {
             <Stack.Screen
                 name="Cadastro Histórico"
                 component={CadastroHistorico}
+                options={{
+                    headerShown: true,
+                    headerTintColor: "orange",
+                    headerStyle: {
+                        backgroundColor: '#171717',
+                    },
+
+                }}
+            />
+            {/* EDIT */}
+            <Stack.Screen
+                name="Edit Histórico"
+                component={EditHistorico}
+                options={{
+                    headerShown: true,
+                    headerTintColor: "orange",
+                    headerStyle: {
+                        backgroundColor: '#171717',
+                    },
+
+                }}
+            />
+            {/* DETAILS */}
+            <Stack.Screen
+                name="Detalhes Turma"
+                component={DetailsTurmas}
                 options={{
                     headerShown: true,
                     headerTintColor: "orange",

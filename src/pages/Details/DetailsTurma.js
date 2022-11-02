@@ -10,33 +10,81 @@ import database from "../../config/config";
 import { FontAwesome } from "@expo/vector-icons";
 
 
-export default function ListaTurmas({ navigation }) {
+export default function DetailsTurmas({ navigation, route }) {
     const [turma, setTurma] = useState([]);
+    const [alunos, setAlunos] = useState([]);
+    const [historico, setHistorico] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    async function getDados() {
-        setLoading(true)
-        const collecRef = collection(database, 'turmas');
+    async function getDadosHistorico() {
+        const collecRef = collection(database, 'historico');
         let lista = [];
         await getDocs(collecRef).then((snapshot) => {
             for (let i = 0; i < snapshot.docs.length; i++) {
                 let obj = {
                     id: snapshot.docs[i].id,
+                    cod_historico: snapshot.docs[i].data().cod_historico,
+                    matricula: snapshot.docs[i].data().matricula,
                     cod_turma: snapshot.docs[i].data().cod_turma,
-                    cod_disc: snapshot.docs[i].data().cod_disc,
-                    cod_prof: snapshot.docs[i].data().cod_prof,
-                    ano: snapshot.docs[i].data().ano,
-                    horario: snapshot.docs[i].data().horario,
+                    frequencia: snapshot.docs[i].data().frequencia,
+                    nota: snapshot.docs[i].data().nota,
                 }
                 lista.push(obj)
             }
-            setTurma(lista)
+            setHistorico(lista)
         })
+        return lista
+    }
+
+    async function getDadosAlunos() {
+        const collecRef = collection(database, 'alunos');
+        let lista = [];
+        await getDocs(collecRef).then((snapshot) => {
+            for (let i = 0; i < snapshot.docs.length; i++) {
+                let obj = {
+                    id: snapshot.docs[i].id,
+                    nome: snapshot.docs[i].data().nome,
+                }
+                lista.push(obj)
+            }
+            setAlunos(lista)
+        })
+        return lista
+    }
+
+    async function interateHistoricoWithName(dataAluno, dataHistorico) {
+        dataHistorico.forEach(itemH => {
+            dataAluno.forEach(itemA => {
+                if (itemH.matricula == itemA.id) {
+                    itemH.nome = itemA.nome
+                }
+            })
+        })
+        setHistorico(dataHistorico)
+    }
+
+    async function findAlunosByTurma(dataHistorico) {
+        console.log("entrou")
+        let arrAux = []
+        dataHistorico.forEach(item => {
+            if (item.cod_turma == route.params.id) {
+                arrAux.push(item)
+            }
+        })
+        setTurma(arrAux)
+    }
+
+    async function main() {
+        setLoading(true)
+        const dataHistorico = await getDadosHistorico()
+        const dataAluno = await getDadosAlunos()
+        await interateHistoricoWithName(dataAluno, dataHistorico)
+        await findAlunosByTurma(dataHistorico)
         setLoading(false)
     }
 
     useEffect(() => {
-        getDados()
+        main()
     }, [])
 
     if (loading) {
@@ -55,23 +103,11 @@ export default function ListaTurmas({ navigation }) {
                     renderItem={(item) => {
                         return (
                             <View style={styles.containerFlatlist}>
-                                <TouchableOpacity style={styles.content} onPress={() => navigation.navigate("Detalhes Turma", {
-                                    id: item.item.id,
-                                    cod_turma: item.item.cod_turma,
-                                    cod_disc: item.item.cod_disc,
-                                    cod_turma: item.item.cod_turma,
-                                    ano: item.item.ano,
-                                    horario: item.item.horario,
-                                })}>
+                                <TouchableOpacity style={styles.content} onPress={() => navigation.navigate("Lista Turmas",)}>
                                     <Text
                                         style={styles.description}
                                     >
-                                        {`${item.item.horario} h`}
-                                    </Text>
-                                    <Text
-                                        style={styles.description}
-                                    >
-                                        {`${item.item.ano}`}
+                                        {`${item.item.nome}`}
                                     </Text>
                                 </TouchableOpacity>
                             </View>

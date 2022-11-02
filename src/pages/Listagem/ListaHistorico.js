@@ -13,11 +13,10 @@ import { FontAwesome } from "@expo/vector-icons";
 export default function ListaHistorico({ navigation }) {
     const [historico, setHistorico] = useState([])
     const [loading, setLoading] = useState(false);
-
-    //Alunos
     const [alunos, setAlunos] = useState([]);
 
     async function getDadosAlunos() {
+        console.log("2° - GET DADOS - ALUNOS")
         const collecRef = collection(database, 'alunos');
         let lista = [];
         await getDocs(collecRef).then((snapshot) => {
@@ -28,22 +27,26 @@ export default function ListaHistorico({ navigation }) {
                 }
                 lista.push(obj)
             }
+            console.log("LISTA DE ALUNOS >>>", lista)
             setAlunos(lista)
         })
+        return lista
     }
 
-    function interateHistoricoWithName() {
-        historico.forEach(item => {
-            console.log(item)
+    async function interateHistoricoWithName(dataAluno, dataHistorico) {
+        console.log("3° - INTERATE")
+        dataHistorico.forEach(itemH => {
+            dataAluno.forEach(itemA => {
+                if (itemH.matricula == itemA.id) {
+                    itemH.nome = itemA.nome
+                }
+            })
         })
-    }
-
-    function findNameByID() {
-
+        setHistorico(dataHistorico)
     }
 
     async function getDados() {
-        
+        console.log("1° - GET DADOS - HISTORICO")
         const collecRef = collection(database, 'historico');
         let lista = [];
         await getDocs(collecRef).then((snapshot) => {
@@ -58,18 +61,32 @@ export default function ListaHistorico({ navigation }) {
                 }
                 lista.push(obj)
             }
+            console.log("LISTA DE HISTORICOS >>>", lista)
             setHistorico(lista)
         })
+        return lista
     }
 
     async function main() {
         setLoading(true)
-        await getDados()
-        await getDadosAlunos()
-        interateHistoricoWithName()
+        let dataHistorico = await getDados()
+        let dataAluno = await getDadosAlunos()
+        await interateHistoricoWithName(dataAluno, dataHistorico)
         setLoading(false)
     }
 
+    //DELETE
+    function deleteMeeting(id) {
+        const docRef = doc(database, "historico", id);
+
+        getDoc(docRef).then((snap) => {
+            if (!snap.exists()) {
+                console.log("not found")
+            } else {
+                deleteDoc(docRef).then(console.log("Deletado"))
+            }
+        })
+    }
 
     useEffect(() => {
         main()
@@ -91,14 +108,12 @@ export default function ListaHistorico({ navigation }) {
                     renderItem={(item) => {
                         return (
                             <View style={styles.containerFlatlist}>
-                                <TouchableOpacity style={styles.content} onPress={() => navigation.navigate("Menu", {
-                                    id: item.item.id,
-                                    nome: item.item.nome,
-                                    matricula: item.item.matricula,
-                                    endereco: item.item.endereco,
-                                    foto: item.item.foto,
-                                    cidade: item.item.cidade,
-                                })}>
+                                <TouchableOpacity style={styles.content}>
+                                    <Text
+                                        style={styles.description}
+                                    >
+                                        {`${item.item.nome}`}
+                                    </Text>
                                     <Text
                                         style={styles.description}
                                     >
@@ -109,6 +124,34 @@ export default function ListaHistorico({ navigation }) {
                                     >
                                         {`${item.item.nota}`}
                                     </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.delete}
+                                    onPress={() => {
+                                        deleteMeeting(item.item.id)
+                                    }}
+                                >
+                                    <FontAwesome
+                                        name="trash"
+                                        size={20}
+                                        color="orange"
+                                    ></FontAwesome>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.edit}
+                                    onPress={() => navigation.navigate("Edit Histórico", {
+                                        id: item.item.id,
+                                        cod_historico: item.item.cod_historico,
+                                        matricula: item.item.matricula,
+                                        cod_turma: item.item.cod_turma,
+                                        frequencia: item.item.frequencia,
+                                        nota: item.item.nota,
+                                    })}>
+                                    <FontAwesome
+                                        name="pencil"
+                                        size={20}
+                                        color="orange"
+                                    ></FontAwesome>
                                 </TouchableOpacity>
                             </View>
                         )
@@ -135,18 +178,25 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         justifyContent: "center",
+        alignItems: "center",
         marginTop: 5,
+        marginBottom: 20,
     },
     content: {
-        width: "90%",
+        width: "70%",
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: "#2b2b2b",
         padding: 12,
         paddingHorizontal: 20,
         borderRadius: 6,
-        marginBottom: 20,
         flexDirection: 'row'
+    },
+    delete: {
+        marginLeft: 25,
+    },
+    edit: {
+        marginLeft: 25,
     },
     image: {
         width: 50,
@@ -155,7 +205,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     description: {
-        fontSize: 20,
+        fontSize: 15,
         color: "#fff",
         fontWeight: "bold",
     },
