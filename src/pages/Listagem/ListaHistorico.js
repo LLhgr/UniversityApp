@@ -16,7 +16,6 @@ export default function ListaHistorico({ navigation }) {
     const [alunos, setAlunos] = useState([]);
 
     async function getDadosAlunos() {
-        console.log("2° - GET DADOS - ALUNOS")
         const collecRef = collection(database, 'alunos');
         let lista = [];
         await getDocs(collecRef).then((snapshot) => {
@@ -27,14 +26,12 @@ export default function ListaHistorico({ navigation }) {
                 }
                 lista.push(obj)
             }
-            console.log("LISTA DE ALUNOS >>>", lista)
             setAlunos(lista)
         })
         return lista
     }
 
     async function interateHistoricoWithName(dataAluno, dataHistorico) {
-        console.log("3° - INTERATE")
         dataHistorico.forEach(itemH => {
             dataAluno.forEach(itemA => {
                 if (itemH.matricula == itemA.id) {
@@ -46,7 +43,6 @@ export default function ListaHistorico({ navigation }) {
     }
 
     async function getDados() {
-        console.log("1° - GET DADOS - HISTORICO")
         const collecRef = collection(database, 'historico');
         let lista = [];
         await getDocs(collecRef).then((snapshot) => {
@@ -61,7 +57,7 @@ export default function ListaHistorico({ navigation }) {
                 }
                 lista.push(obj)
             }
-            console.log("LISTA DE HISTORICOS >>>", lista)
+
             setHistorico(lista)
         })
         return lista
@@ -81,7 +77,6 @@ export default function ListaHistorico({ navigation }) {
 
         getDoc(docRef).then((snap) => {
             if (!snap.exists()) {
-                console.log("not found")
             } else {
                 deleteDoc(docRef).then(console.log("Deletado"))
             }

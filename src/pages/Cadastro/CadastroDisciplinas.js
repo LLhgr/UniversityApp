@@ -17,10 +17,8 @@ export default function CadastroDisciplina({ navigation }) {
             carga_hor: carga_hor,
             nome_disc: nome_disc,
         }
-        console.log(obj)
         for (let item in obj) {
             if (obj[item] == null || obj[item] == "" || obj[item] == undefined) {
-                console.log(item)
                 return false
             }
             else return true

@@ -35,10 +35,8 @@ export default function CadastroTurma({ navigation }) {
             ano: ano,
             horario: horario,
         }
-        console.log(obj)
         for (let item in obj) {
             if (obj[item] == null || obj[item] == "" || obj[item] == undefined) {
-                console.log(item)
                 return false
             }
             else return true
@@ -48,9 +46,6 @@ export default function CadastroTurma({ navigation }) {
     function add() {
         let idProf = findSelectProf()
         let idDisc = findSelectDisc()
-
-        console.log(idProf)
-        console.log(idDisc)
 
         if (!AllFieldsAreFilled(idProf, idDisc)) {
             window.alert("Preencha todos os campos")
@@ -164,7 +159,6 @@ export default function CadastroTurma({ navigation }) {
                 defaultButtonText={`Selecione um professor`}
                 defaultValue={null}
                 onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     setSelectedProf(selectedItem)
@@ -191,7 +185,6 @@ export default function CadastroTurma({ navigation }) {
                 defaultButtonText={`Selecione uma disciplina`}
                 defaultValue={null}
                 onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     setSelectedDisc(selectedItem)

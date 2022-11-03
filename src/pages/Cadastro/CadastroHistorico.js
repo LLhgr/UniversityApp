@@ -35,10 +35,8 @@ export default function CadastroHistorico({ navigation }) {
             frequencia: frequencia,
             nota: nota,
         }
-        console.log(obj)
         for (let item in obj) {
             if (obj[item] == null || obj[item] == "" || obj[item] == undefined) {
-                console.log(item)
                 return false
             }
             else return true
@@ -48,10 +46,6 @@ export default function CadastroHistorico({ navigation }) {
     function add() {
         let idMatricula = findSelectMatricula()
         let idTurma = findSelectTurma()
-
-        console.log(idMatricula)
-        console.log(idTurma)
-
         if (!AllFieldsAreFilled(idTurma, idMatricula)) {
             window.alert("Preencha todos os campos")
             return
@@ -164,7 +158,7 @@ export default function CadastroHistorico({ navigation }) {
                 defaultButtonText={`Selecione um aluno`}
                 defaultValue={null}
                 onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     setSelectedMatricula(selectedItem)
@@ -191,7 +185,6 @@ export default function CadastroHistorico({ navigation }) {
                 defaultButtonText={`Selecione uma turma`}
                 defaultValue={null}
                 onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     setSelectedTurma(selectedItem)

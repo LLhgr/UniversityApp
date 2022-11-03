@@ -10,9 +10,7 @@ import database from "../../config/config";
 import { FontAwesome } from "@expo/vector-icons";
 
 
-export default function DetailsTurmas({ navigation, route }) {
-    const [turma, setTurma] = useState([]);
-    const [alunos, setAlunos] = useState([]);
+export default function DetailsHistorico({ navigation, route }) {
     const [historico, setHistorico] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -36,54 +34,20 @@ export default function DetailsTurmas({ navigation, route }) {
         return lista
     }
 
-    async function getDadosAlunos() {
-        const collecRef = collection(database, 'alunos');
-        let lista = [];
-        await getDocs(collecRef).then((snapshot) => {
-            for (let i = 0; i < snapshot.docs.length; i++) {
-                let obj = {
-                    id: snapshot.docs[i].id,
-                    nome: snapshot.docs[i].data().nome,
-                    foto: snapshot.docs[i].data().foto,
-                    matricula: snapshot.docs[i].data().matricula,
-                }
-                lista.push(obj)
-            }
-            setAlunos(lista)
-        })
-        return lista
-    }
-
-    async function interateHistoricoWithAluno(dataAluno, dataHistorico) {
-        dataHistorico.forEach(itemH => {
-            dataAluno.forEach(itemA => {
-                if (itemH.matricula == itemA.id) {
-                    itemH.nome = itemA.nome
-                    itemH.foto = itemA.foto
-                    itemH.matricula = itemA.matricula
-                    itemH.alunoId = itemA.id
-                }
-            })
-        })
-        setHistorico(dataHistorico)
-    }
-
-    async function findAlunosByTurma(dataHistorico) {
+    async function findHistoricoByAluno(dataHistorico) {
         let arrAux = []
         dataHistorico.forEach(item => {
-            if (item.cod_turma == route.params.id) {
+            if (item.matricula == route.params.alunoId) {
                 arrAux.push(item)
             }
         })
-        setTurma(arrAux)
+        setHistorico(arrAux)
     }
 
     async function main() {
         setLoading(true)
         const dataHistorico = await getDadosHistorico()
-        const dataAluno = await getDadosAlunos()
-        await interateHistoricoWithAluno(dataAluno, dataHistorico)
-        await findAlunosByTurma(dataHistorico)
+        await findHistoricoByAluno(dataHistorico)
         setLoading(false)
     }
 
@@ -101,28 +65,33 @@ export default function DetailsTurmas({ navigation, route }) {
     else {
         return (
             <View style={styles.container}>
-            <FlatList
+                <FlatList
                 showsVerticalScrollIndicator={true}
-                data={turma}
+                data={historico}
                 renderItem={(item) => {
                     return (
                         <View style={styles.containerFlatlist}>
-                            <TouchableOpacity style={styles.content} onPress={() => navigation.navigate("Detalhes Historico do Aluno", {
-                                matricula: item.item.matricula,
-                                foto: item.item.foto,
-                                nome: item.item.nome,
-                                alunoId: item.item.alunoId,
-                            })}>
+                            <TouchableOpacity style={styles.content}>
                                 <Image
                                     style={styles.image}
                                     source={{
-                                        uri: `${item.item.foto}`,
+                                        uri: `${route.params.foto}`,
                                     }}
                                 />
                                 <Text
+                                    style={styles.description__nome}
+                                >
+                                    {route.params.nome}
+                                </Text>
+                                <Text
                                     style={styles.description}
                                 >
-                                    {item.item.nome}
+                                    {`Frequência: ${item.item.frequencia}%`}
+                                </Text>
+                                <Text
+                                    style={styles.description}
+                                >
+                                    {`Nota: ${item.item.nota}`}
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -142,8 +111,10 @@ const styles = StyleSheet.create({
     },
     containerFlatlist: {
         width: "100%",
+        height: "100%",
         flexDirection: "row",
         justifyContent: "center",
+        alignItems: "center",
         marginTop: 5,
     },
     content: {
@@ -166,7 +137,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "#fff",
         fontWeight: "bold",
+        marginBottom: 20,
     },
+    description__nome: {
+        fontSize: 30,
+        marginBottom: 50,
+        color: "orange",
+        fontWeight: "bold",
+    },  
     icon: {
         marginRight: 5,
     },

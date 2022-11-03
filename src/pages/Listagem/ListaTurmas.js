@@ -59,14 +59,13 @@ export default function ListaTurmas({ navigation }) {
                                     id: item.item.id,
                                     cod_turma: item.item.cod_turma,
                                     cod_disc: item.item.cod_disc,
-                                    cod_turma: item.item.cod_turma,
                                     ano: item.item.ano,
                                     horario: item.item.horario,
                                 })}>
                                     <Text
                                         style={styles.description}
                                     >
-                                        {`${item.item.horario} h`}
+                                        {`${item.item.horario}h`}
                                     </Text>
                                     <Text
                                         style={styles.description}

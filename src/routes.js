@@ -29,6 +29,7 @@ import EditHistorico from "./pages/Edit/EditHistorico";
 
 //Details
 import DetailsTurmas from "./pages/Details/DetailsTurma";
+import DetailsHistorico from "./pages/Details/DetailsHistorico";
 
 
 const Stack = createStackNavigator();
@@ -187,6 +188,18 @@ function RootNavigator() {
             <Stack.Screen
                 name="Detalhes Turma"
                 component={DetailsTurmas}
+                options={{
+                    headerShown: true,
+                    headerTintColor: "orange",
+                    headerStyle: {
+                        backgroundColor: '#171717',
+                    },
+
+                }}
+            />
+            <Stack.Screen
+                name="Detalhes Historico do Aluno"
+                component={DetailsHistorico}
                 options={{
                     headerShown: true,
                     headerTintColor: "orange",

@@ -21,10 +21,8 @@ export default function CadastroAluno({ navigation }) {
             endereco: endereco,
             cidade: cidade,
         }
-        console.log(obj)
         for (let item in obj) {
             if (obj[item] == null || obj[item] == "" || obj[item] == undefined) {
-                console.log(item)
                 return false
             }
             else return true
