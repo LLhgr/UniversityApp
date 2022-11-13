@@ -53,12 +53,7 @@ export default function ListaDisciplinas({ navigation }) {
                     renderItem={(item) => {
                         return (
                             <View style={styles.containerFlatlist}>
-                                <TouchableOpacity style={styles.content} onPress={() => navigation.navigate("Menu", {
-                                    id: item.item.id,
-                                    nome_disc: item.item.nome_disc,
-                                    cod_disc: item.item.cod_disc,
-                                    carga_hor: item.item.carga_hor,
-                                })}>
+                                <TouchableOpacity style={styles.content}>
                                     <Text
                                         style={styles.description}
                                     >

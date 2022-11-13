@@ -8,7 +8,7 @@ export default function Config({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text>PÁGINA HOME</Text>
+            <Text>Não fizemos 😥, desculpa professor 💗</Text>
         </View>
     )
 }

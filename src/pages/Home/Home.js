@@ -5,7 +5,7 @@ import styles from "./style";
 
 export default function Home({ navigation }) {
 
-    const imagem = `https://c4.wallpaperflare.com/wallpaper/500/442/354/outrun-vaporwave-hd-wallpaper-thumb.jpg`
+    const imagem = `https://i.pinimg.com/736x/37/be/88/37be8803ec8f34473f6fb5fd1a449642.jpg`
 
 
     return (
