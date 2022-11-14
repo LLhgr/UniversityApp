@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, ActivityIndicator, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, ActivityIndicator, Image, Button } from "react-native";
 
 //FIREBASE
 import { getFirestore, collection, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore'
@@ -83,6 +83,42 @@ export default function ListaHistorico({ navigation }) {
         })
     }
 
+    async function sortByName() {
+        console.log(historico)
+
+        await historico.sort((a, b) => {
+            if (a.nome > b.nome) return 1;
+            else if (a.nome < b.nome) return -1;
+            else return 0
+        })
+
+        console.log("DEPOIS", historico)
+        setHistorico([])
+        setHistorico(historico)
+    }
+
+    async function sortByNota() {
+
+        historico.forEach(item => {
+            item.nota = parseInt(item.nota)
+        })
+
+        await historico.sort((a, b) => {
+            if (a.nota > b.nota) return -1;
+            else if (a.nota < b.nota) return 1;
+            else return 0
+        })
+
+        await historico.forEach(item => {
+            item.nota = String(item.nota)
+        })
+
+        setHistorico([])
+        setHistorico(historico)
+    }
+
+
+
     useEffect(() => {
         main()
     }, [])
@@ -97,6 +133,18 @@ export default function ListaHistorico({ navigation }) {
     else {
         return (
             <View style={styles.container}>
+                <View style={styles.containerFilters}>
+                    <TouchableOpacity
+                        style={styles.buttonFilter} onPress={sortByName}
+                    >
+                        <Text style={styles.filter}>Filtrar por nome</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonFilter} onPress={sortByNota}
+                    >
+                        <Text style={styles.filter}>Filtrar por nota</Text>
+                    </TouchableOpacity>
+                </View>
                 <FlatList
                     showsVerticalScrollIndicator={true}
                     data={historico}
@@ -168,6 +216,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#171717",
         paddingTop: 20,
+    },
+    containerFilters: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
+        flexDirection: "row",
+        marginBottom: 50
+    },
+    buttonFilter: {
+        backgroundColor: "orange",
+        width: "40%",
+        padding: 15,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 20
+    },
+    filter: {
+        color: 'white',
+        fontWeight: "bold"
     },
     containerFlatlist: {
         width: "100%",
